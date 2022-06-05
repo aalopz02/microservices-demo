@@ -61,6 +61,7 @@ public class AdServiceClient {
 
   /** Construct client for accessing RouteGuide server using the existing channel. */
   private AdServiceClient(ManagedChannel channel) {
+  //test
     this.channel = channel;
     blockingStub = hipstershop.AdServiceGrpc.newBlockingStub(channel);
   }
