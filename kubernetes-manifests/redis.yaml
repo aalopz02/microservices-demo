@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-cart
-  namespace: dev
+  namespace: prod
 spec:
   selector:
     matchLabels:
@@ -52,13 +52,13 @@ spec:
       volumes:
       - name: redis-data
         hostPath: 
-            path: /dataDev
+            path: /data
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: redis-cart
-  namespace: dev
+  namespace: prod
 spec:
   type: ClusterIP
   selector:
