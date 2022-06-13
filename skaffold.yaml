@@ -22,18 +22,10 @@ build:
   # must provide a "default repo" using one of the methods described
   # here:
   # https://skaffold.dev/docs/concepts/#image-repository-handling
-  - image: emailservice
-    context: src/emailservice
-  - image: productcatalogservice
-    context: src/productcatalogservice
   - image: recommendationservice
     context: src/recommendationservice
-  - image: shippingservice
-    context: src/shippingservice
   - image: checkoutservice
     context: src/checkoutservice
-  - image: paymentservice
-    context: src/paymentservice
   - image: currencyservice
     context: src/currencyservice
   - image: cartservice
@@ -55,13 +47,10 @@ deploy:
     - ./kubernetes-manifests/cartservice.yaml
     - ./kubernetes-manifests/checkoutservice.yaml
     - ./kubernetes-manifests/currencyservice.yaml
-    - ./kubernetes-manifests/emailservice.yaml
     - ./kubernetes-manifests/frontend.yaml
-    - ./kubernetes-manifests/paymentservice.yaml
     - ./kubernetes-manifests/productcatalogservice.yaml
     - ./kubernetes-manifests/recommendationservice.yaml
     - ./kubernetes-manifests/redis.yaml
-    - ./kubernetes-manifests/shippingservice.yaml
 profiles:
 # "gcb" profile allows building and pushing the images
 # on Google Container Builder without requiring docker
