@@ -43,14 +43,14 @@ build:
 deploy:
   kubectl:
     manifests:
-    - ./kubernetes-manifests/adservice.yaml
-    - ./kubernetes-manifests/cartservice.yaml
-    - ./kubernetes-manifests/checkoutservice.yaml
-    - ./kubernetes-manifests/currencyservice.yaml
-    - ./kubernetes-manifests/frontend.yaml
-    - ./kubernetes-manifests/productcatalogservice.yaml
-    - ./kubernetes-manifests/recommendationservice.yaml
-    - ./kubernetes-manifests/redis.yaml
+    - ./kubernetes-manifests-main/adservice.yaml
+    - ./kubernetes-manifests-main/cartservice.yaml
+    - ./kubernetes-manifests-main/checkoutservice.yaml
+    - ./kubernetes-manifests-main/currencyservice.yaml
+    - ./kubernetes-manifests-main/frontend.yaml
+    - ./kubernetes-manifests-main/productcatalogservice.yaml
+    - ./kubernetes-manifests-main/recommendationservice.yaml
+    - ./kubernetes-manifests-main/redis.yaml
 profiles:
 # "gcb" profile allows building and pushing the images
 # on Google Container Builder without requiring docker
@@ -81,3 +81,85 @@ profiles:
     kubectl:
       manifests:
       - ./kubernetes-manifests/loadgenerator.yaml
+
+# This is not used by default. To use it, run:
+#     skaffold run -p develop
+- name: develop
+  activation:
+    - command: develop     
+  build:
+    artifacts:
+    # image tags are relative; to specify an image repo (e.g. GCR), you
+    # must provide a "default repo" using one of the methods described
+    # here:
+    # https://skaffold.dev/docs/concepts/#image-repository-handling
+    - image: recommendationservice
+      context: src/recommendationservice
+    - image: checkoutservice
+      context: src/checkoutservice
+    - image: currencyservice
+      context: src/currencyservice
+    - image: cartservice
+      context: src/cartservice/src
+      docker:
+        dockerfile: Dockerfile
+    - image: frontend
+      context: src/frontend
+    - image: adservice
+      context: src/adservice
+    tagPolicy:
+      gitCommit: {}
+    local:
+      useBuildkit: false
+  deploy:
+    kubectl:
+      manifests:
+      - ./kubernetes-manifests-dev/adservice.yaml
+      - ./kubernetes-manifests-dev/cartservice.yaml
+      - ./kubernetes-manifests-dev/checkoutservice.yaml
+      - ./kubernetes-manifests-dev/currencyservice.yaml
+      - ./kubernetes-manifests-dev/frontend.yaml
+      - ./kubernetes-manifests-dev/productcatalogservice.yaml
+      - ./kubernetes-manifests-dev/recommendationservice.yaml
+      - ./kubernetes-manifests-dev/redis.yaml
+
+# This is not used by default. To use it, run:
+#     skaffold run -p develop
+- name: test
+  activation:
+    - command: test     
+  build:
+    artifacts:
+    # image tags are relative; to specify an image repo (e.g. GCR), you
+    # must provide a "default repo" using one of the methods described
+    # here:
+    # https://skaffold.dev/docs/concepts/#image-repository-handling
+    - image: recommendationservice
+      context: src/recommendationservice
+    - image: checkoutservice
+      context: src/checkoutservice
+    - image: currencyservice
+      context: src/currencyservice
+    - image: cartservice
+      context: src/cartservice/src
+      docker:
+        dockerfile: Dockerfile
+    - image: frontend
+      context: src/frontend
+    - image: adservice
+      context: src/adservice
+    tagPolicy:
+      gitCommit: {}
+    local:
+      useBuildkit: false
+  deploy:
+    kubectl:
+      manifests:
+      - ./kubernetes-manifests-test/adservice.yaml
+      - ./kubernetes-manifests-test/cartservice.yaml
+      - ./kubernetes-manifests-test/checkoutservice.yaml
+      - ./kubernetes-manifests-test/currencyservice.yaml
+      - ./kubernetes-manifests-test/frontend.yaml
+      - ./kubernetes-manifests-test/productcatalogservice.yaml
+      - ./kubernetes-manifests-test/recommendationservice.yaml
+      - ./kubernetes-manifests-test/redis.yaml
