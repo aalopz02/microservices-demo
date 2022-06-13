@@ -2,6 +2,8 @@
 <img src="src/frontend/static/icons/Hipster_HeroLogoCyan.svg" width="300" alt="Online Boutique" />
 </p>
 
+![Continuous Integration](https://github.com/GoogleCloudPlatform/microservices-demo/workflows/Continuous%20Integration%20-%20Main/Release/badge.svg)
+
 **Online Boutique** is a cloud-native microservices demo application.
 Online Boutique consists of a 11-tier microservices application. The application is a
 web-based e-commerce app where users can browse items,
